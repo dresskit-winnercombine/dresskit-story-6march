@@ -8,7 +8,7 @@
   <title>Dresskit — Color Season Party</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -17,9 +17,9 @@
     }
     html { height: 100%; }
     body {
-      background: #0D0A07;
-      color: #F0E8DC;
-      font-family: 'DM Sans', -apple-system, sans-serif;
+      background: #E7E4D8;
+      color: #31324A;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       min-height: 100dvh;
       overflow-x: hidden;
     }
@@ -36,21 +36,21 @@
     /* ── Loading overlay ── */
     #loading {
       position: fixed; inset: 0; z-index: 200;
-      background: rgba(13, 10, 7, 0.92);
+      background: rgba(231, 228, 216, 0.92);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 18px;
     }
     .loader-ring {
       width: 48px; height: 48px;
-      border: 2px solid rgba(255,255,255,0.08);
-      border-top-color: #C8A070;
+      border: 2px solid rgba(108,107,126,0.14);
+      border-top-color: #A3834D;
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
     }
     .loading-label {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 19px; font-weight: 300; font-style: italic;
-      color: #A08060;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 19px; font-weight: 500;
+      color: #6C6B7E;
     }
 
     /* ══ SCREEN 1 — Selection ══ */
@@ -65,25 +65,25 @@
       padding-top: 48px; padding-bottom: 6px; gap: 5px;
     }
     .brand-name {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 27px; font-weight: 600;
-      letter-spacing: 0.2em; color: #F0E8DC;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px; font-weight: 600;
+      letter-spacing: 0.01em; color: #31324A;
     }
     .event-tag {
-      font-size: 10px; letter-spacing: 0.22em;
-      color: #6A5A48; text-transform: uppercase; font-weight: 400;
+      font-size: 11px; letter-spacing: 0.18em;
+      color: #7A7883; text-transform: uppercase; font-weight: 600;
     }
 
     .select-heading {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 40px; font-weight: 300;
-      text-align: center; line-height: 1.1;
-      margin-top: 28px; color: #F0E8DC;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 42px; font-weight: 600;
+      text-align: center; line-height: 1.08;
+      margin-top: 30px; color: #31324A;
     }
     .select-hint {
-      font-size: 12px; color: #6A5A48; text-align: center;
-      margin-top: 8px; margin-bottom: 26px;
-      font-weight: 300; font-style: italic;
+      font-size: 14px; color: #7A7883; text-align: center;
+      margin-top: 10px; margin-bottom: 28px;
+      font-weight: 400;
     }
 
     /* Season cards grid */
@@ -92,28 +92,28 @@
       gap: 13px; flex: 1;
     }
     .season-card {
-      border-radius: 22px;
-      padding: 22px 14px 20px;
+      border-radius: 24px;
+      padding: 24px 16px 22px;
       display: flex; flex-direction: column; align-items: center;
       gap: 5px; cursor: pointer;
-      transition: transform 0.12s ease;
+      transition: transform 0.12s ease, box-shadow 0.2s ease;
       position: relative; overflow: hidden;
-      min-height: 196px;
+      min-height: 204px;
     }
     .season-card:active { transform: scale(0.95); }
     .season-card-icon  { font-size: 30px; margin-bottom: 4px; }
     .season-card-name  {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 26px; font-weight: 600; letter-spacing: 0.04em;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px; font-weight: 600; letter-spacing: 0.01em;
     }
     .season-card-sub   {
-      font-size: 9px; font-weight: 400;
-      letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.72;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.78;
     }
     .swatch-row { display: flex; gap: 6px; margin-top: auto; padding-top: 14px; }
     .sw {
       width: 19px; height: 19px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.22); flex-shrink: 0;
+      border: 1.5px solid rgba(49,50,74,0.15); flex-shrink: 0;
     }
 
     /* ══ SCREEN 2 — Card ══ */
@@ -126,30 +126,29 @@
 
     .back-btn {
       align-self: flex-start; background: none; border: none;
-      color: #6A5A48; font-family: 'DM Sans', sans-serif;
+      color: #7A7883; font-family: 'Inter', sans-serif;
       font-size: 14px; cursor: pointer;
       padding: 18px 0 0; display: flex; align-items: center;
       gap: 6px; font-weight: 300;
     }
     .season-eyebrow {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase;
-      opacity: 0.4; margin-top: 22px; margin-bottom: 2px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #7A7883; margin-top: 22px; margin-bottom: 6px; font-weight: 700;
     }
     .season-big-name {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 42px; font-weight: 600; margin-bottom: 2px; text-align: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 46px; font-weight: 600; margin-bottom: 4px; text-align: center; color: #31324A;
     }
     .season-big-sub {
-      font-size: 12px; font-style: italic;
-      color: #6A5A48; margin-bottom: 22px;
+      font-size: 14px; color: #7A7883; margin-bottom: 24px; font-weight: 500;
     }
 
     /* Card preview */
     .card-wrap {
       width: 100%; max-width: 296px;
       border-radius: 22px; overflow: hidden;
-      box-shadow: 0 28px 70px rgba(0,0,0,0.75);
+      box-shadow: 0 24px 60px rgba(49,50,74,0.12);
       margin-bottom: 26px; flex-shrink: 0;
     }
     .card-wrap img { width: 100%; display: block; }
@@ -157,11 +156,11 @@
     /* Save instructions */
     .save-box {
       width: 100%; max-width: 296px;
-      border-radius: 16px; padding: 17px 20px;
+      border-radius: 22px; padding: 18px 20px;
       margin-bottom: 20px;
     }
     .save-box-title {
-      font-size: 13px; font-weight: 500; margin-bottom: 13px;
+      font-size: 14px; font-weight: 700; margin-bottom: 13px; color:#31324A;
     }
     .save-steps { display: flex; flex-direction: column; gap: 9px; }
     .save-step  { display: flex; align-items: center; gap: 11px; }
@@ -170,14 +169,14 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 11px; font-weight: 500; flex-shrink: 0;
     }
-    .step-txt { font-size: 13px; font-weight: 300; line-height: 1.4; }
+    .step-txt { font-size: 14px; font-weight: 400; line-height: 1.45; }
 
     .again-btn {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #6A5A48; padding: 13px 38px; border-radius: 50px;
-      font-family: 'DM Sans', sans-serif; font-size: 13px;
-      cursor: pointer; font-weight: 300; margin-top: 4px;
+      background: #F4F4F2;
+      border: 1px solid rgba(108,107,126,0.16);
+      color: #31324A; padding: 14px 38px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      cursor: pointer; font-weight: 600; margin-top: 8px; box-shadow: 0 10px 24px rgba(49,50,74,0.08);
     }
   </style>
 </head>
@@ -186,7 +185,7 @@
 <!-- ── Loading ── -->
 <div id="loading" class="hidden">
   <div class="loader-ring"></div>
-  <div class="loading-label">Kartın hazırlanıyor…</div>
+  <div class="loading-label">Kartın hazırlanıyor...</div>
 </div>
 
 <!-- ══ Screen 1: Season Selection ══ -->
@@ -202,61 +201,61 @@
   <div class="seasons-grid">
     <!-- Sonbahar -->
     <div class="season-card" onclick="selectSeason('sonbahar')"
-      style="background:linear-gradient(148deg,#4A1800,#8B4513);color:#FFE8D0;box-shadow:0 10px 36px rgba(139,69,19,0.45)">
+      style="background:linear-gradient(180deg,#C9B8AF,#D8C9C3);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
       <div class="season-card-icon">🍂</div>
       <div class="season-card-name">Sonbahar</div>
-      <div class="season-card-sub" style="color:#F0C090">Sıcak & Derin</div>
+      <div class="season-card-sub" style="color:#A3834D">Sıcak & Derin</div>
       <div class="swatch-row">
-        <div class="sw" style="background:#7B3F00"></div>
-        <div class="sw" style="background:#B05A14"></div>
-        <div class="sw" style="background:#D4804A"></div>
-        <div class="sw" style="background:#E8A86A"></div>
-        <div class="sw" style="background:#956040"></div>
+        <div class="sw" style="background:#A55D36"></div>
+        <div class="sw" style="background:#C97A4B"></div>
+        <div class="sw" style="background:#D59C72"></div>
+        <div class="sw" style="background:#E8C3A5"></div>
+        <div class="sw" style="background:#8C664A"></div>
       </div>
     </div>
 
     <!-- Kış -->
     <div class="season-card" onclick="selectSeason('kis')"
-      style="background:linear-gradient(148deg,#0C2340,#3A78B0);color:#E8F6FF;box-shadow:0 10px 36px rgba(58,120,176,0.4)">
+      style="background:linear-gradient(180deg,#5F6076,#6C6B7E);color:#F4F4F2;border:1px solid rgba(108,107,126,0.18);box-shadow:0 16px 32px rgba(49,50,74,0.12)">
       <div class="season-card-icon">❄️</div>
       <div class="season-card-name">Kış</div>
-      <div class="season-card-sub" style="color:#A8D4F0">Soğuk & Net</div>
+      <div class="season-card-sub" style="color:#D8D9E3">Soğuk & Net</div>
       <div class="swatch-row">
-        <div class="sw" style="background:#5BA8D0"></div>
-        <div class="sw" style="background:#88C8E8"></div>
-        <div class="sw" style="background:#B0E0F0"></div>
-        <div class="sw" style="background:#4480B0"></div>
-        <div class="sw" style="background:#2060A0"></div>
+        <div class="sw" style="background:#4F8BCB"></div>
+        <div class="sw" style="background:#7CA9DC"></div>
+        <div class="sw" style="background:#AFC4E6"></div>
+        <div class="sw" style="background:#5579A6"></div>
+        <div class="sw" style="background:#3B567B"></div>
       </div>
     </div>
 
     <!-- İlkbahar -->
     <div class="season-card" onclick="selectSeason('ilkbahar')"
-      style="background:linear-gradient(148deg,#0C2A0C,#2E7A2E);color:#E0FFE0;box-shadow:0 10px 36px rgba(46,122,46,0.4)">
+      style="background:linear-gradient(180deg,#D9DCCD,#E7E4D8);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
       <div class="season-card-icon">🌿</div>
       <div class="season-card-name">İlkbahar</div>
-      <div class="season-card-sub" style="color:#A0D8A0">Taze & Canlı</div>
+      <div class="season-card-sub" style="color:#7F8F5E">Taze & Canlı</div>
       <div class="swatch-row">
-        <div class="sw" style="background:#2A7A2A"></div>
-        <div class="sw" style="background:#3EA03E"></div>
-        <div class="sw" style="background:#70C870"></div>
-        <div class="sw" style="background:#5AC85A"></div>
-        <div class="sw" style="background:#208020"></div>
+        <div class="sw" style="background:#7F9B63"></div>
+        <div class="sw" style="background:#9DB57A"></div>
+        <div class="sw" style="background:#B6C89A"></div>
+        <div class="sw" style="background:#D2DAC0"></div>
+        <div class="sw" style="background:#667B52"></div>
       </div>
     </div>
 
     <!-- Yaz -->
     <div class="season-card" onclick="selectSeason('yaz')"
-      style="background:linear-gradient(148deg,#3D2000,#B07800);color:#FFF4C8;box-shadow:0 10px 36px rgba(176,120,0,0.4)">
+      style="background:linear-gradient(180deg,#DCC9BC,#E7E4D8);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
       <div class="season-card-icon">☀️</div>
       <div class="season-card-name">Yaz</div>
-      <div class="season-card-sub" style="color:#FFE080">Sıcak & Parlak</div>
+      <div class="season-card-sub" style="color:#A3834D">Sıcak & Parlak</div>
       <div class="swatch-row">
-        <div class="sw" style="background:#D4A010"></div>
-        <div class="sw" style="background:#F0C030"></div>
-        <div class="sw" style="background:#FFD84A"></div>
-        <div class="sw" style="background:#E8C040"></div>
-        <div class="sw" style="background:#B88820"></div>
+        <div class="sw" style="background:#C5B767"></div>
+        <div class="sw" style="background:#D7C87E"></div>
+        <div class="sw" style="background:#E7D89C"></div>
+        <div class="sw" style="background:#E9DDB8"></div>
+        <div class="sw" style="background:#AA9454"></div>
       </div>
     </div>
   </div>
@@ -301,42 +300,42 @@
     sonbahar: {
       labelUI: 'Sonbahar',  labelBig: 'SONBAHAR',
       sub: 'Sıcak & Derin',
-      desc: ['Kahverengi, terrakota', 've bakır tonları senin renklerin.'],
-      bg:  ['#140600','#5C2000','#9A4818'],
-      acc: '#F0C090',  txt: '#FFF0DC',
-      sw:  ['#7B3F00','#B05A14','#D4804A','#E8A86A','#C8906A','#956040'],
-      boxBg: 'rgba(100,42,0,0.55)',  boxBorder: '#8B451330',
-      cirBg: '#7B3F00', cirTxt: '#FFE8D0',
+      desc: ['Toprak, bakır ve sıcak nötrler', 'senin paletinde harika durur.'],
+      bg:  ['#D8C9C3','#C6B3A8','#A3834D'],
+      acc: '#A3834D',  txt: '#31324A',
+      sw:  ['#A55D36','#C97A4B','#D59C72','#E8C3A5','#8C664A','#C5B767'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#A3834D', cirTxt: '#FFFFFF',
     },
     kis: {
       labelUI: 'Kış',       labelBig: 'KIŞ',
       sub: 'Soğuk & Net',
-      desc: ['Açık mavi, buz', 've çelik tonları senin renklerin.'],
-      bg:  ['#02101E','#0F2D4A','#2A6090'],
-      acc: '#C8E8F8',  txt: '#E8F6FF',
-      sw:  ['#5BA8D0','#88C8E8','#B0E0F0','#4480B0','#2060A0','#A8D0E8'],
-      boxBg: 'rgba(10,38,74,0.55)',  boxBorder: '#3A78B030',
-      cirBg: '#2060A0', cirTxt: '#E8F6FF',
+      desc: ['Yüksek kontrast, taş grisi', 've derin lacivertler sende parlar.'],
+      bg:  ['#6C6B7E','#5C5D70','#31324A'],
+      acc: '#D8C9C3',  txt: '#F4F4F2',
+      sw:  ['#31324A','#3B567B','#5579A6','#7CA9DC','#AFC4E6','#D8D9E3'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#6C6B7E', cirTxt: '#FFFFFF',
     },
     ilkbahar: {
       labelUI: 'İlkbahar',  labelBig: 'İLKBAHAR',
       sub: 'Taze & Canlı',
-      desc: ['Yeşil, çimen', 've nane tonları senin renklerin.'],
-      bg:  ['#030D03','#0E2E0E','#287828'],
-      acc: '#C0E8C0',  txt: '#E8FFE8',
-      sw:  ['#2A7A2A','#3EA03E','#70C870','#98E098','#5AC85A','#208020'],
-      boxBg: 'rgba(12,42,12,0.55)',  boxBorder: '#2E7A2E30',
-      cirBg: '#287828', cirTxt: '#E8FFE8',
+      desc: ['Adaçayı, açık zeytin ve', 'yumuşak yeşiller sana çok yakışır.'],
+      bg:  ['#E7E4D8','#D9DCCD','#B6C89A'],
+      acc: '#7F8F5E',  txt: '#31324A',
+      sw:  ['#667B52','#7F9B63','#9DB57A','#B6C89A','#D2DAC0','#E9E7DA'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#7F8F5E', cirTxt: '#FFFFFF',
     },
     yaz: {
       labelUI: 'Yaz',       labelBig: 'YAZ',
-      sub: 'Sıcak & Parlak',
-      desc: ['Sarı, altın', 've limon tonları senin renklerin.'],
-      bg:  ['#160A00','#4A2800','#9A7000'],
-      acc: '#FFE880',  txt: '#FFF8E0',
-      sw:  ['#D4A010','#F0C030','#FFD84A','#FFE870','#E8C040','#B88820'],
-      boxBg: 'rgba(80,50,0,0.55)',  boxBorder: '#B0780030',
-      cirBg: '#9A7000', cirTxt: '#FFF4C8',
+      sub: 'Yumuşak & Işıltılı',
+      desc: ['Krem, pudra ve açık altın', 'tonları paletini dengeler.'],
+      bg:  ['#E7E4D8','#DCC9BC','#C5B767'],
+      acc: '#A3834D',  txt: '#31324A',
+      sw:  ['#EEE7CC','#E8DDB8','#D7C87E','#C5B767','#D8C9C3','#F4F4F2'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#A3834D', cirTxt: '#FFFFFF',
     },
   };
 
@@ -408,26 +407,26 @@
     line(W*0.28,112,W*0.72,112, s.acc, 0.28, 1.5);
 
     // 7. DRESSKIT
-    text('D R E S S K I T', 195, `300 50px 'Cormorant Garamond',Georgia,serif`, s.acc, 0.72);
+    text('D R E S S K I T', 195, `600 54px 'Playfair Display',Georgia,serif`, s.acc, 0.72);
 
     // 8. Event name
-    text('COLOR SEASON PARTY', 272, `300 35px 'DM Sans',Arial,sans-serif`, s.acc, 0.42);
+    text('COLOR SEASON PARTY', 272, `700 24px 'Inter',Arial,sans-serif`, s.acc, 0.42);
 
     // 9. Date + venue
-    text('6 MART 2026  ·  UNITE ORTAK MEKAN  ·  ANKARA', 328, `300 28px 'DM Sans',Arial,sans-serif`, s.txt, 0.3);
+    text('6 MART 2026  ·  UNITE ORTAK MEKAN  ·  ANKARA', 328, `500 24px 'Inter',Arial,sans-serif`, s.txt, 0.3);
 
     // 10. Mid rule
     line(55,400,W-55,400, s.acc, 0.1, 1);
 
     // 11. "renk mevsimin" eyebrow
-    text('renk mevsimin', 574, `300 italic 56px 'Cormorant Garamond',Georgia,serif`, s.acc, 0.42);
+    text('renk mevsimin', 574, `500 46px 'Playfair Display',Georgia,serif`, s.acc, 0.42);
 
     // 12. BIG SEASON NAME
-    const nameFs = s.labelBig==='İLKBAHAR'?172:(s.labelBig==='SONBAHAR'?190:248);
-    text(s.labelBig, 862, `700 ${nameFs}px 'Cormorant Garamond',Georgia,serif`, s.txt, 1);
+    const nameFs = s.labelBig==='İLKBAHAR'?144:(s.labelBig==='SONBAHAR'?156:(s.labelBig==='KIŞ'?198:186));
+    text(s.labelBig, 862, `700 ${nameFs}px 'Playfair Display',Georgia,serif`, s.txt, 1);
 
     // 13. Subtitle
-    text(s.sub, 980, `300 italic 68px 'Cormorant Garamond',Georgia,serif`, s.acc, 0.8);
+    text(s.sub, 980, `600 56px 'Playfair Display',Georgia,serif`, s.acc, 0.8);
 
     // 14. Dots divider
     ctx.save(); ctx.fillStyle=s.acc; ctx.globalAlpha=0.32;
@@ -436,7 +435,7 @@
 
     // 15. Description
     ctx.save(); ctx.fillStyle=s.txt; ctx.globalAlpha=0.58;
-    ctx.font=`300 48px 'Cormorant Garamond',Georgia,serif`; ctx.textAlign='center';
+    ctx.font=`500 42px 'Inter',Arial,sans-serif`; ctx.textAlign='center';
     s.desc.forEach((l,i) => ctx.fillText(l, W/2, 1152+i*76));
     ctx.restore();
 
@@ -450,10 +449,10 @@
     s.sw.forEach((c,i) => {
       const cx = sx0+i*(SR*2+GAP), cy=1472;
       ctx.save();
-      ctx.shadowColor='rgba(0,0,0,0.4)'; ctx.shadowBlur=18;
+      ctx.shadowColor='rgba(49,50,74,0.16)'; ctx.shadowBlur=18;
       ctx.fillStyle=c; ctx.beginPath(); ctx.arc(cx,cy,SR,0,Math.PI*2); ctx.fill();
       ctx.shadowBlur=0;
-      ctx.strokeStyle='rgba(255,255,255,0.22)'; ctx.lineWidth=2.5; ctx.stroke();
+      ctx.strokeStyle='rgba(49,50,74,0.14)'; ctx.lineWidth=2.5; ctx.stroke();
       ctx.restore();
     });
 
@@ -461,10 +460,10 @@
     line(55,1600,W-55,1600, s.acc, 0.1, 1);
 
     // 19. "keşfet" tagline
-    text('renk mevsimini sen de keşfet', 1716, `300 italic 46px 'Cormorant Garamond',Georgia,serif`, s.acc, 0.42);
+    text('renk mevsimini sen de keşfet', 1716, `500 40px 'Playfair Display',Georgia,serif`, s.acc, 0.42);
 
     // 20. dresskit.app
-    text('dresskit.app', 1808, `300 36px 'DM Sans',Arial,sans-serif`, s.txt, 0.28);
+    text('dresskit.app', 1808, `600 30px 'Inter',Arial,sans-serif`, s.txt, 0.28);
 
     // 21. Bottom rule
     line(W*0.33,1874,W*0.67,1874, s.acc, 0.22, 1.5);
@@ -506,10 +505,10 @@
     // Ensure fonts are loaded before drawing
     await document.fonts.ready;
     await Promise.allSettled([
-      document.fonts.load(`300 60px 'Cormorant Garamond'`),
-      document.fonts.load(`700 200px 'Cormorant Garamond'`),
-      document.fonts.load(`300 italic 60px 'Cormorant Garamond'`),
-      document.fonts.load(`300 36px 'DM Sans'`),
+      document.fonts.load(`500 60px 'Playfair Display'`),
+      document.fonts.load(`700 200px 'Playfair Display'`),
+      document.fonts.load(`600 42px 'Inter'`),
+      document.fonts.load(`500 36px 'Inter'`),
     ]);
     // Two-frame delay so loading overlay paints before blocking draw
     await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
