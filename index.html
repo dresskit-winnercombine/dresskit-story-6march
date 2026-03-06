@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Dresskit — Color Season Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0; padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html { height: 100%; }
+    body {
+      background: #E7E4D8;
+      color: #31324A;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* ── Utilities ── */
+    .hidden { display: none !important; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .anim { animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Loading overlay ── */
+    #loading {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(231, 228, 216, 0.92);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 18px;
+    }
+    .loader-ring {
+      width: 48px; height: 48px;
+      border: 2px solid rgba(108,107,126,0.14);
+      border-top-color: #A3834D;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
+    .loading-label {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 19px; font-weight: 500;
+      color: #6C6B7E;
+    }
+
+    /* ══ SCREEN 1 — Selection ══ */
+    #screen-select {
+      min-height: 100dvh;
+      display: flex; flex-direction: column;
+      padding: 0 18px 48px;
+    }
+
+    .top-bar {
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 48px; padding-bottom: 6px; gap: 5px;
+    }
+    .brand-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px; font-weight: 600;
+      letter-spacing: 0.01em; color: #31324A;
+    }
+    .event-tag {
+      font-size: 11px; letter-spacing: 0.18em;
+      color: #7A7883; text-transform: uppercase; font-weight: 600;
+    }
+
+    .select-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 42px; font-weight: 600;
+      text-align: center; line-height: 1.08;
+      margin-top: 30px; color: #31324A;
+    }
+    .select-hint {
+      font-size: 14px; color: #7A7883; text-align: center;
+      margin-top: 10px; margin-bottom: 28px;
+      font-weight: 400;
+    }
+
+    /* Season cards grid */
+    .seasons-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 13px; flex: 1;
+    }
+    .season-card {
+      border-radius: 24px;
+      padding: 24px 16px 22px;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 5px; cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.2s ease;
+      position: relative; overflow: hidden;
+      min-height: 204px;
+    }
+    .season-card:active { transform: scale(0.95); }
+    .season-card-icon  { font-size: 30px; margin-bottom: 4px; }
+    .season-card-name  {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px; font-weight: 600; letter-spacing: 0.01em;
+    }
+    .season-card-sub   {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.78;
+    }
+    .swatch-row { display: flex; gap: 6px; margin-top: auto; padding-top: 14px; }
+    .sw {
+      width: 19px; height: 19px; border-radius: 50%;
+      border: 1.5px solid rgba(49,50,74,0.15); flex-shrink: 0;
+    }
+
+    /* ══ SCREEN 2 — Card ══ */
+    #screen-card {
+      min-height: 100dvh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 18px 52px;
+      overflow-y: auto;
+    }
+
+    .back-btn {
+      align-self: flex-start; background: none; border: none;
+      color: #7A7883; font-family: 'Inter', sans-serif;
+      font-size: 14px; cursor: pointer;
+      padding: 18px 0 0; display: flex; align-items: center;
+      gap: 6px; font-weight: 300;
+    }
+    .season-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #7A7883; margin-top: 22px; margin-bottom: 6px; font-weight: 700;
+    }
+    .season-big-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 46px; font-weight: 600; margin-bottom: 4px; text-align: center; color: #31324A;
+    }
+    .season-big-sub {
+      font-size: 14px; color: #7A7883; margin-bottom: 24px; font-weight: 500;
+    }
+
+    /* Card preview */
+    .card-wrap {
+      width: 100%; max-width: 296px;
+      border-radius: 22px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(49,50,74,0.12);
+      margin-bottom: 26px; flex-shrink: 0;
+    }
+    .card-wrap img { width: 100%; display: block; }
+
+    /* Save instructions */
+    .save-box {
+      width: 100%; max-width: 296px;
+      border-radius: 22px; padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .save-box-title {
+      font-size: 14px; font-weight: 700; margin-bottom: 13px; color:#31324A;
+    }
+    .save-steps { display: flex; flex-direction: column; gap: 9px; }
+    .save-step  { display: flex; align-items: center; gap: 11px; }
+    .step-circle {
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 500; flex-shrink: 0;
+    }
+    .step-txt { font-size: 14px; font-weight: 500; line-height: 1.45; color:#31324A; }
+
+    .again-btn {
+      background: #F4F4F2;
+      border: 1px solid rgba(108,107,126,0.16);
+      color: #31324A; padding: 14px 38px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      cursor: pointer; font-weight: 600; margin-top: 8px; box-shadow: 0 10px 24px rgba(49,50,74,0.08);
+    }
+    .action-row {
+      width: 100%; max-width: 296px;
+      display: flex; flex-direction: column; gap: 12px;
+      margin-top: 8px;
+    }
+    .action-row-top {
+      margin-top: -6px;
+      margin-bottom: 18px;
+    }
+    .share-btn {
+      background: linear-gradient(180deg, #A3834D, #94733E);
+      border: none;
+      color: #FFFFFF; padding: 15px 22px; border-radius: 999px;
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      cursor: pointer; font-weight: 700; box-shadow: 0 14px 30px rgba(163,131,77,0.22);
+      width: 100%;
+    }
+    .share-note {
+      font-size: 12px; line-height: 1.45; color: #7A7883; text-align: center;
+      margin-top: -2px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Loading ── -->
+<div id="loading" class="hidden">
+  <div class="loader-ring"></div>
+  <div class="loading-label">Kartın hazırlanıyor...</div>
+</div>
+
+<!-- ══ Screen 1: Season Selection ══ -->
+<div id="screen-select" class="anim">
+  <div class="top-bar">
+    <div class="brand-name">DRESSKIT</div>
+    <div class="event-tag">Color Season Party · 6 Mart 2026</div>
+  </div>
+
+  <div class="select-heading">Renk Mevsimini<br>Seç</div>
+  <div class="select-hint">Kartını oluştur, Stories'te paylaş.</div>
+
+  <div class="seasons-grid">
+    <!-- Sonbahar -->
+    <div class="season-card" onclick="selectSeason('sonbahar')"
+      style="background:linear-gradient(180deg,#C9B8AF,#D8C9C3);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
+      <div class="season-card-icon">🍂</div>
+      <div class="season-card-name">Sonbahar</div>
+      <div class="season-card-sub" style="color:#A3834D">Sıcak & Derin</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:#A55D36"></div>
+        <div class="sw" style="background:#D59C72"></div>
+        <div class="sw" style="background:#8C664A"></div>
+      </div>
+    </div>
+
+    <!-- Kış -->
+    <div class="season-card" onclick="selectSeason('kis')"
+      style="background:linear-gradient(180deg,#5F6076,#6C6B7E);color:#F4F4F2;border:1px solid rgba(108,107,126,0.18);box-shadow:0 16px 32px rgba(49,50,74,0.12)">
+      <div class="season-card-icon">❄️</div>
+      <div class="season-card-name">Kış</div>
+      <div class="season-card-sub" style="color:#D8D9E3">Soğuk & Net</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:#3B567B"></div>
+        <div class="sw" style="background:#5579A6"></div>
+        <div class="sw" style="background:#AFC4E6"></div>
+      </div>
+    </div>
+
+    <!-- İlkbahar -->
+    <div class="season-card" onclick="selectSeason('ilkbahar')"
+      style="background:linear-gradient(180deg,#D9DCCD,#E7E4D8);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
+      <div class="season-card-icon">🌿</div>
+      <div class="season-card-name">İlkbahar</div>
+      <div class="season-card-sub" style="color:#7F8F5E">Taze & Canlı</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:#667B52"></div>
+        <div class="sw" style="background:#9DB57A"></div>
+        <div class="sw" style="background:#D2DAC0"></div>
+      </div>
+    </div>
+
+    <!-- Yaz -->
+    <div class="season-card" onclick="selectSeason('yaz')"
+      style="background:linear-gradient(180deg,#DCC9BC,#E7E4D8);color:#31324A;border:1px solid rgba(108,107,126,0.12);box-shadow:0 16px 32px rgba(49,50,74,0.08)">
+      <div class="season-card-icon">☀️</div>
+      <div class="season-card-name">Yaz</div>
+      <div class="season-card-sub" style="color:#A3834D">Sıcak & Parlak</div>
+      <div class="swatch-row">
+        <div class="sw" style="background:#AA9454"></div>
+        <div class="sw" style="background:#D7C87E"></div>
+        <div class="sw" style="background:#E9DDB8"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Screen 2: Generated Card ══ -->
+<div id="screen-card" class="hidden">
+  <button class="back-btn" onclick="goBack()">← Geri</button>
+
+  <div class="season-eyebrow">renk mevsimin</div>
+  <div class="season-big-name" id="card-title"></div>
+  <div class="season-big-sub"  id="card-sub"></div>
+
+  <div class="card-wrap" id="card-wrap"></div>
+
+  <div class="action-row action-row-top">
+    <button class="share-btn" onclick="shareToInstagram()">Instagram'da Paylaş</button>
+    <div class="share-note">Desteklenen telefonlarda paylaş ekranı açılır. Olmazsa önce görseli galeriye kaydedebilirsin.</div>
+  </div>
+
+  <div class="save-box" id="save-box">
+    <div class="save-box-title">📱 Kartı galeriye kaydetmek için:</div>
+    <div class="save-steps">
+      <div class="save-step">
+        <div class="step-circle" id="sc1">1</div>
+        <div class="step-txt">Görsele uzun bas</div>
+      </div>
+      <div class="save-step">
+        <div class="step-circle" id="sc2">2</div>
+        <div class="step-txt">"Fotoğrafı Kaydet" veya "Galeriye Ekle"yi seç</div>
+      </div>
+      <div class="save-step">
+        <div class="step-circle" id="sc3">3</div>
+        <div class="step-txt">Instagram Stories'i aç → Galeriden ekle</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="again-btn" onclick="goBack()">Farklı Mevsim Seç</button>
+  </div>
+</div>
+
+<script>
+  // ──────────────────────────────────────────────
+  //  Season definitions
+  // ──────────────────────────────────────────────
+  const S = {
+    sonbahar: {
+      labelUI: 'Sonbahar',  labelBig: 'SONBAHAR',
+      sub: 'Sıcak & Derin',
+      desc: ['Toprak, bakır ve sıcak nötrler', 'senin paletinde harika durur.'],
+      bg:  ['#D8C9C3','#C6B3A8','#A3834D'],
+      acc: '#A3834D',  txt: '#31324A',
+      sw:  ['#A55D36','#D59C72','#8C664A'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#A3834D', cirTxt: '#FFFFFF',
+    },
+    kis: {
+      labelUI: 'Kış',       labelBig: 'KIŞ',
+      sub: 'Soğuk & Net',
+      desc: ['Yüksek kontrast, taş grisi', 've derin lacivertler sende parlar.'],
+      bg:  ['#6C6B7E','#5C5D70','#31324A'],
+      acc: '#D8C9C3',  txt: '#F4F4F2',
+      sw:  ['#3B567B','#5579A6','#AFC4E6'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#6C6B7E', cirTxt: '#FFFFFF',
+    },
+    ilkbahar: {
+      labelUI: 'İlkbahar',  labelBig: 'İLKBAHAR',
+      sub: 'Taze & Canlı',
+      desc: ['Adaçayı, açık zeytin ve', 'yumuşak yeşiller sana çok yakışır.'],
+      bg:  ['#E7E4D8','#D9DCCD','#B6C89A'],
+      acc: '#7F8F5E',  txt: '#31324A',
+      sw:  ['#667B52','#9DB57A','#D2DAC0'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#7F8F5E', cirTxt: '#FFFFFF',
+    },
+    yaz: {
+      labelUI: 'Yaz',       labelBig: 'YAZ',
+      sub: 'Yumuşak & Işıltılı',
+      desc: ['Krem, pudra ve açık altın', 'tonları paletini dengeler.'],
+      bg:  ['#E7E4D8','#DCC9BC','#C5B767'],
+      acc: '#A3834D',  txt: '#31324A',
+      sw:  ['#AA9454','#D7C87E','#E9DDB8'],
+      boxBg: '#F4F4F2',  boxBorder: 'rgba(108,107,126,0.12)',
+      cirBg: '#A3834D', cirTxt: '#FFFFFF',
+    },
+  };
+
+  // ──────────────────────────────────────────────
+  //  Helpers
+  // ──────────────────────────────────────────────
+  function hexRgb(hex) {
+    return [
+      parseInt(hex.slice(1,3),16),
+      parseInt(hex.slice(3,5),16),
+      parseInt(hex.slice(5,7),16)
+    ];
+  }
+
+  // ──────────────────────────────────────────────
+  //  Canvas card drawing
+  // ──────────────────────────────────────────────
+  let currentCardBlob = null;
+  let currentCardDataUrl = '';
+  let currentSeasonLabel = '';
+
+  function drawCard(canvas, s) {
+    const ctx = canvas.getContext('2d');
+    const W = 1080, H = 1920;
+
+    // 1. Background gradient
+    const bg = ctx.createLinearGradient(0, 0, W*0.25, H);
+    bg.addColorStop(0,   s.bg[0]);
+    bg.addColorStop(0.4, s.bg[1]);
+    bg.addColorStop(1,   s.bg[2]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    // 2. Radial glow — top right
+    const [ar,ag,ab] = hexRgb(s.acc);
+    const rg1 = ctx.createRadialGradient(W*0.88, H*0.14, 0, W*0.88, H*0.14, 580);
+    rg1.addColorStop(0, `rgba(${ar},${ag},${ab},0.18)`);
+    rg1.addColorStop(1, `rgba(${ar},${ag},${ab},0)`);
+    ctx.fillStyle = rg1; ctx.fillRect(0,0,W,H);
+
+    // 3. Radial glow — bottom left
+    const rg2 = ctx.createRadialGradient(W*0.07, H*0.9, 0, W*0.07, H*0.9, 400);
+    rg2.addColorStop(0, `rgba(${ar},${ag},${ab},0.12)`);
+    rg2.addColorStop(1, `rgba(${ar},${ag},${ab},0)`);
+    ctx.fillStyle = rg2; ctx.fillRect(0,0,W,H);
+
+    // 4. Grain
+    ctx.save(); ctx.globalAlpha = 0.022;
+    for (let i=0; i<5000; i++) {
+      ctx.fillStyle = Math.random()>0.5?'#FFF':'#000';
+      ctx.fillRect(Math.random()*W, Math.random()*H, Math.random()*2+0.5, Math.random()*2+0.5);
+    }
+    ctx.restore();
+
+    // 5. Vignette
+    const vig = ctx.createRadialGradient(W/2,H/2,H*0.28,W/2,H/2,H*0.85);
+    vig.addColorStop(0,'rgba(0,0,0,0)');
+    vig.addColorStop(1,'rgba(0,0,0,0.52)');
+    ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
+
+    // ── HELPERS ──
+    const line = (x1,y1,x2,y2,color,alpha=0.14,w=1) => {
+      ctx.save(); ctx.globalAlpha=alpha; ctx.strokeStyle=color;
+      ctx.lineWidth=w; ctx.beginPath();
+      ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.restore();
+    };
+    const text = (t, y, font, color, alpha=1, align='center') => {
+      ctx.save(); ctx.globalAlpha=alpha; ctx.fillStyle=color;
+      ctx.font=font; ctx.textAlign=align; ctx.fillText(t,W/2,y); ctx.restore();
+    };
+
+    // 6. Top rule
+    line(W*0.28,112,W*0.72,112, s.acc, 0.28, 1.5);
+
+    // 7. DRESSKIT
+    text('D R E S S K I T', 195, `600 54px 'Playfair Display',Georgia,serif`, s.acc, 0.72);
+
+    // 8. Event name
+    text('COLOR SEASON PARTY', 272, `700 24px 'Inter',Arial,sans-serif`, s.acc, 0.42);
+
+    // 9. Date + venue
+    text('6 MART 2026  ·  UNITE ORTAK MEKAN  ·  ANKARA', 328, `500 24px 'Inter',Arial,sans-serif`, s.txt, 0.3);
+
+    // 10. Mid rule
+    line(55,400,W-55,400, s.acc, 0.1, 1);
+
+    // 11. "renk mevsimin" eyebrow
+    text('renk mevsimin', 574, `500 46px 'Playfair Display',Georgia,serif`, s.acc, 0.42);
+
+    // 12. BIG SEASON NAME
+    const nameFs = s.labelBig==='İLKBAHAR'?144:(s.labelBig==='SONBAHAR'?156:(s.labelBig==='KIŞ'?198:186));
+    text(s.labelBig, 862, `700 ${nameFs}px 'Playfair Display',Georgia,serif`, s.txt, 1);
+
+    // 13. Subtitle
+    text(s.sub, 980, `600 56px 'Playfair Display',Georgia,serif`, s.acc, 0.8);
+
+    // 14. Dots divider
+    ctx.save(); ctx.fillStyle=s.acc; ctx.globalAlpha=0.32;
+    [-66,0,66].forEach(dx => { ctx.beginPath(); ctx.arc(W/2+dx,1062,7,0,Math.PI*2); ctx.fill(); });
+    ctx.restore();
+
+    // 15. Description
+    ctx.save(); ctx.fillStyle=s.txt; ctx.globalAlpha=0.58;
+    ctx.font=`500 42px 'Inter',Arial,sans-serif`; ctx.textAlign='center';
+    s.desc.forEach((l,i) => ctx.fillText(l, W/2, 1152+i*76));
+    ctx.restore();
+
+    // 16. Rule before swatches
+    line(55,1350,W-55,1350, s.acc, 0.1, 1);
+
+    // 17. Color swatches
+    const SR=62, GAP=26, n=s.sw.length;
+    const totalW = n*SR*2+(n-1)*GAP;
+    const sx0 = (W-totalW)/2+SR;
+    s.sw.forEach((c,i) => {
+      const cx = sx0+i*(SR*2+GAP), cy=1472;
+      ctx.save();
+      ctx.shadowColor='rgba(49,50,74,0.16)'; ctx.shadowBlur=18;
+      ctx.fillStyle=c; ctx.beginPath(); ctx.arc(cx,cy,SR,0,Math.PI*2); ctx.fill();
+      ctx.shadowBlur=0;
+      ctx.strokeStyle='rgba(49,50,74,0.14)'; ctx.lineWidth=2.5; ctx.stroke();
+      ctx.restore();
+    });
+
+    // 18. Rule after swatches
+    line(55,1600,W-55,1600, s.acc, 0.1, 1);
+
+    // 19. "keşfet" tagline
+    text('renk mevsimini sen de keşfet', 1716, `500 40px 'Playfair Display',Georgia,serif`, s.acc, 0.42);
+
+    // 20. dresskit.app
+    text('dresskit.app', 1808, `600 30px 'Inter',Arial,sans-serif`, s.txt, 0.28);
+
+    // 21. Bottom rule
+    line(W*0.33,1874,W*0.67,1874, s.acc, 0.22, 1.5);
+  }
+
+  // ──────────────────────────────────────────────
+  //  Screen transitions
+  // ──────────────────────────────────────────────
+  async function selectSeason(id) {
+    const s = S[id];
+
+    // Update labels
+    document.getElementById('card-title').textContent = s.labelUI;
+    document.getElementById('card-title').style.color  = s.acc;
+    document.getElementById('card-sub').textContent    = s.sub;
+
+    // Update instruction colors
+    const box = document.getElementById('save-box');
+    box.style.background   = s.boxBg;
+    box.style.border       = `1px solid ${s.boxBorder}`;
+    box.style.color        = '#31324A';
+    ['sc1','sc2','sc3'].forEach(id => {
+      const el = document.getElementById(id);
+      el.style.background = s.cirBg;
+      el.style.color      = s.cirTxt;
+    });
+
+    // Switch to card screen
+    document.getElementById('screen-select').classList.add('hidden');
+    const cardScreen = document.getElementById('screen-card');
+    cardScreen.classList.remove('hidden');
+    cardScreen.classList.add('anim');
+    cardScreen.scrollTop = 0;
+
+    // Show loading
+    const loading = document.getElementById('loading');
+    loading.classList.remove('hidden');
+
+    // Ensure fonts are loaded before drawing
+    await document.fonts.ready;
+    await Promise.allSettled([
+      document.fonts.load(`500 60px 'Playfair Display'`),
+      document.fonts.load(`700 200px 'Playfair Display'`),
+      document.fonts.load(`600 42px 'Inter'`),
+      document.fonts.load(`500 36px 'Inter'`),
+    ]);
+    // Two-frame delay so loading overlay paints before blocking draw
+    await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await new Promise(r => setTimeout(r, 80));
+
+    // Draw
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080; canvas.height = 1920;
+    drawCard(canvas, s);
+
+    // Convert to image
+    currentCardDataUrl = canvas.toDataURL('image/png');
+    currentSeasonLabel = s.labelUI;
+    currentCardBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
+    const img = new Image();
+    img.src = currentCardDataUrl;
+    img.style.cssText = 'width:100%;display:block;';
+    img.setAttribute('alt', s.labelUI + ' renk mevsimi kartı');
+
+    const wrap = document.getElementById('card-wrap');
+    wrap.innerHTML = '';
+    wrap.appendChild(img);
+
+    // Done
+    loading.classList.add('hidden');
+  }
+
+  async function shareToInstagram() {
+    if (!currentCardBlob) {
+      alert('Önce bir kart oluşturman gerekiyor.');
+      return;
+    }
+
+    const file = new File([currentCardBlob], `dresskit-${currentSeasonLabel.toLowerCase()}.png`, { type: 'image/png' });
+    const shareData = {
+      files: [file],
+      title: `Dresskit ${currentSeasonLabel} kartı`,
+      text: 'Dresskit Color Season Party'
+    };
+
+    try {
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share(shareData);
+        return;
+      }
+
+      if (navigator.share) {
+        await navigator.share({
+          title: `Dresskit ${currentSeasonLabel} kartı`,
+          text: 'Kartı kaydet ve Instagram Stories’de paylaş ✨',
+          url: currentCardDataUrl
+        });
+        return;
+      }
+    } catch (err) {
+      if (err && err.name === 'AbortError') return;
+    }
+
+    alert('Bu cihazda doğrudan paylaşım desteklenmiyor. Görsele uzun basıp kaydet, sonra Instagram Stories içinden galeriden ekle.');
+  }
+
+  function goBack() {
+    document.getElementById('screen-card').classList.add('hidden');
+    document.getElementById('screen-card').classList.remove('anim');
+    const sel = document.getElementById('screen-select');
+    sel.classList.remove('hidden');
+    sel.classList.add('anim');
+  }
+</script>
+</body>
+</html>
